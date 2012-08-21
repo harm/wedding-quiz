@@ -13,22 +13,61 @@
 		<div id="round1">
 			<div id="question_counter"></div>
 			<div id="question_pane">RONDE 1: 3,6,9</div>
+			
+			<div id="controls">
+				<a href="#" id="previous">Previous</a> | 
+				<a href="#" id="next">Next</a>
+			</div>
 		</div>
+		
+		<div id="round2">
+			<div id="game_screen">
+				Ronde 2: Puzzel
+			</div>
+			<div id="controls">
+				<a href="#" id="previous">Previous</a> | 
+				<a href="#" id="next">Next</a>
+			</div>
+		</div>
+		
+		<div id="round3">
+			<div id="question_counter"></div>
+			<div id="question_pane">RONDE 3: Ingelijst</div>
+			
+			<div id="controls">
+				<a href="#" id="previous">Previous</a> | 
+				<a href="#" id="next">Next</a>
+			</div>
+		</div>
+		
 	</div>
 	
 	<div style="clear:both;"></div>
 	
-	<div id="controls">
-		<a href="#" id="previous">Previous</a> | 
-		<a href="#" id="next">Next</a>
-	</div>
+	
 
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		
-		question_index = 0;
+		// general setup
+		$("#round1").hide();
+		$("#round2").hide();
+		//$("#round3").hide();
 		
+		Array.prototype.shuffle = function() {
+		 	var len = this.length;
+			var i = len;
+			 while (i--) {
+			 	var p = parseInt(Math.random()*len);
+				var t = this[i];
+		  	this[i] = this[p];
+		  	this[p] = t;
+		 	}
+		};
+		
+		// round 1
+		question_index_r1 = 0;
 		round1_questions = [
 			"Waar kikker je van op?",
 			"Wat bevindt zich niet in de kelder van Dries?",
@@ -42,31 +81,121 @@
 			"Hoeveel graden was het in de huiskamer tijdens het weekend in Spa?",
 			"Hoe ziet Lian haar droom vakantieverblijf er uit?",
 			"Hoe heet de minnaar van Lian?",
-			"Wie drikt als Dries en Lian met de auto op stap zijn?",
+			"Wie drinkt als Dries en Lian met de auto op stap zijn?",
 			"Waar heeft Dries met moeite afstand van genomen sinds zijn relatie met Lian?",
 			"In welk jaartal is de badkamer van Dries en Lian afgerond?"
 		];
 		
-		$('#next').click(function() {
-			question_index++;
-			display_question();
-			
+		$('#round1 #next').click(function() {
+			if (question_index_r1 > 14) {
+				$("#round1").hide();
+				$("#round2").show();
+			} else {
+				question_index_r1++;
+				display_question_r1();
+			}	
 		});
 		
-		$('#previous').click(function() {
-			question_index--;
-			display_question();
+		$('#round1 #previous').click(function() {
+			question_index_r1--;
+			display_question_r1();
 		})
 		
-		function display_question() {
-			$('#question_counter').html("Vraag: " + question_index);
-			$('#question_pane').html(round1_questions[question_index]);
-			if (question_index % 3 == 0) {
+		function display_question_r1() {
+			$('#question_counter').html("Vraag: " + question_index_r1);
+			$('#question_pane').html(round1_questions[question_index_r1]);
+			if (question_index_r1 % 3 == 0) {
 				$('#question_pane').addClass('score');
 			} else {
 				$('#question_pane').removeClass('score');
 			}
 		}
+		
+		
+		// round 2
+		function display_question_r2(question) {
+			$('#game_screen').html("");
+			var card_array = [];
+			var card_array_index = 0;
+			for (var i = 0; i < question.length; i++ ) {
+				for(var y = 0; y < 4; y++) {
+					card_array[card_array_index] = "<div class='card " + question[i].solution + "'>" + question[i].data[y] + "</div>";
+					card_array_index++;
+				}
+			}
+
+			card_array.shuffle();
+			for (var i = 0; i < card_array.length; i++) {
+				$("#game_screen").append(card_array[i]);
+			}
+
+			$('.card').click(function() {
+				var my_class = $(this).attr("class");
+				console.log(my_class);
+				var class_to_find = ".card" + "." + my_class.split(" ")[1];
+				console.log(class_to_find);
+				$(class_to_find).addClass('correct');
+			});
+		}
+		
+		var question_index_r2 = 0;
+		var questions_r2 = [ 
+			[
+				{ solution: "skieen", data: [ 'Sneeuw', 'Pijn', 'Flaine', 'Busreis'] },
+				{ solution: "kapper", data: [ 'Haar', 'Opleiding', 'Schaar', 'Föhn'] },
+				{ solution: "Bree", data: [ 'België', 'Opknappertje', 'Parel der Kempen', 'Thuis'] }
+			],
+		 	[
+				{ solution: "Kelder", data: [ 'Jetski', 'Lege kratten bier', 'Interieur winkel', 'Geboortebord Dewi'] },
+				{ solution: "Huis", data: [ 'Stopcontacten', 'Tuin', 'Deurklink', 'Opstapje'] },
+				{ solution: "Kinderen", data: [ 'Hechtigingen', 'Speelgoed', 'Konijn', 'Eigenwijs'] }
+			]
+		];
+		
+		$('#round2 #next').click(function() {
+			if (question_index_r2 > 1) {
+				$("#round2").hide();
+				$("#round3").show();
+			} else {
+				display_question_r2(questions_r2[question_index_r2]);
+				question_index_r2++;
+			}
+			
+		});
+		
+		$('#round2 #previous').click(function() {
+			display_question_r2(questions_r2[question_index_r2]);
+			question_index_r2--;
+			
+		})
+		
+		// round 3
+		question_index_r3 = 0;
+		round3_questions = [
+			"Noem 10 kenmerken van een goed huwelijk?",
+			"Noem 10 'spreuken' van Dries"
+		];
+		
+		$('#round3 #next').click(function() {
+			console.log("clicked...");
+			if (question_index_r3 > 1) {
+				
+			} else {
+				display_question_r3();
+				question_index_r3++;
+			}	
+		});
+		
+		$('#round3 #previous').click(function() {
+			question_index_r3--;
+			display_question_r3();
+		})
+		
+		function display_question_r3() {
+			$('#round3 #question_counter').html("Vraag: " + (question_index_r3 + 1) );
+			$('#round3 #question_pane').html(round3_questions[question_index_r3]);
+		}
+		
 	});
 </script>
 </body>

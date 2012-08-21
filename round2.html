@@ -11,14 +11,17 @@
 <body>	
 	<div id="wrapping">
 		<div id="round2">
-			Ronde 2: Puzzel
+			<div id="game_screen">
+				Ronde 2: Puzzel
+			</div>
+			<div id="controls">
+				<a href="#" id="previous">Previous</a> | 
+				<a href="#" id="next">Next</a>
+			</div>
 		</div>
 	</div>
 	
-	<div id="controls">
-		<a href="#" id="previous">Previous</a> | 
-		<a href="#" id="next">Next</a>
-	</div>
+	
 	
 	<div style="clear:both;"></div>
 
@@ -35,8 +38,8 @@
 	 	}
 	};
 	
-	function displayQuestion(question) {
-		$('#round2').html("");
+	function display_question_r2(question) {
+		$('#game_screen').html("");
 		var card_array = [];
 		var card_array_index = 0;
 		for (var i = 0; i < question.length; i++ ) {
@@ -48,7 +51,7 @@
 		
 		card_array.shuffle();
 		for (var i = 0; i < card_array.length; i++) {
-			$("#round2").append(card_array[i]);
+			$("#game_screen").append(card_array[i]);
 		}
 		
 		$('.card').click(function() {
@@ -78,16 +81,16 @@
 		
 		$('#next').click(function() {
 			question_index++;
-			displayQuestion(questions[question_index]);
+			display_question_r2(questions[question_index]);
 			
 		});
 		
 		$('#previous').click(function() {
 			question_index--;
-			displayQuestion(questions[question_index]);
+			display_question_r2(questions[question_index]);
 		})
 
-		//displayQuestion(questions[0]);
+		//display_question_r2(questions[0]);
 	});
 </script>
 </body>
