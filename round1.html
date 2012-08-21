@@ -10,6 +10,23 @@
 
 <body>	
 	<div id="wrapping">
+		
+		<div id="dries" class="clearfix">
+			<div class="block">
+				<span id="dries_counter">120</span>
+				<span class="name">Dries</span>
+			</div>
+		</div>
+		
+		<div id="lian" class="clearfix">
+			<div class="block">
+				<span id="lian_counter">120</span>
+				<span class="name">Lian</span>
+			</div>
+		</div>
+		
+		<div style="clear:both;"></div>
+
 		<div id="round1">
 			<div id="question_counter"></div>
 			<div id="question_pane">RONDE 1: 3,6,9</div>
@@ -24,8 +41,14 @@
 			<div id="game_screen">
 				Ronde 2: Puzzel
 			</div>
+			
+			<div id="start_determine_r2">
+				<a href="#" id="dries_start_r2">Dries</a> | 
+				<a href="#" id="lian_start_r2">Lian</a>
+			</div>
+			
 			<div id="controls">
-				<a href="#" id="previous">Previous</a> | 
+				<a href="#" id="stop_time">Stop</a>
 				<a href="#" id="next">Next</a>
 			</div>
 		</div>
@@ -44,16 +67,13 @@
 	
 	<div style="clear:both;"></div>
 	
-	
-
-
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		
 		// general setup
-		$("#round1").hide();
+		//$("#round1").hide();
 		$("#round2").hide();
-		//$("#round3").hide();
+		$("#round3").hide();
 		
 		Array.prototype.shuffle = function() {
 		 	var len = this.length;
@@ -67,6 +87,19 @@
 		};
 		
 		// round 1
+		
+		// during round 1 both can earn 20 seconds for a correct answer every third question
+		$("#dries").click(function() {
+			var counter = parseInt($(driesCounter).html());
+			$(driesCounter).html((counter + 20));
+		});
+		
+		$("#lian").click(function() {
+			var counter = parseInt($(lianCounter).html());
+			$(lianCounter).html((counter + 20));
+		});
+		
+		
 		question_index_r1 = 0;
 		round1_questions = [
 			"Waar kikker je van op?",
@@ -113,6 +146,9 @@
 		
 		
 		// round 2
+		
+		current_player = "";
+		
 		function display_question_r2(question) {
 			$('#game_screen').html("");
 			var card_array = [];
@@ -131,10 +167,15 @@
 
 			$('.card').click(function() {
 				var my_class = $(this).attr("class");
-				console.log(my_class);
 				var class_to_find = ".card" + "." + my_class.split(" ")[1];
-				console.log(class_to_find);
 				$(class_to_find).addClass('correct');
+				
+				// update score for current player
+				console.log(current_player);
+				var counter = parseInt($("#" + current_player + "_counter").html());
+				console.log(counter);
+				$("#" + current_player + "_counter").html((counter + 40));
+				
 			});
 		}
 		
@@ -152,22 +193,26 @@
 			]
 		];
 		
-		$('#round2 #next').click(function() {
-			if (question_index_r2 > 1) {
-				$("#round2").hide();
-				$("#round3").show();
-			} else {
-				display_question_r2(questions_r2[question_index_r2]);
-				question_index_r2++;
-			}
-			
+		$("#dries_start_r2").click(function() {
+			dries_paused = false;
+			lian_paused = true;
+			current_player = "dries";
+			display_question_r2(questions_r2[0]);
 		});
 		
-		$('#round2 #previous').click(function() {
-			display_question_r2(questions_r2[question_index_r2]);
-			question_index_r2--;
-			
-		})
+		$("#lian_start_r2").click(function(){
+			dries_paused = true;
+			lian_paused = false;
+			current_player = "lian";
+			display_question_r2(questions_r2[1]);
+		});
+
+		
+		$('#round2 #next').click(function() {
+			$("#round2").hide();
+			$("#round3").show();
+		});
+		
 		
 		// round 3
 		question_index_r3 = 0;
@@ -195,6 +240,52 @@
 			$('#round3 #question_counter').html("Vraag: " + (question_index_r3 + 1) );
 			$('#round3 #question_pane').html(round3_questions[question_index_r3]);
 		}
+		
+		// counter
+		driesCounter  = $("#dries_counter");
+		lianCounter  = $("#lian_counter");
+		
+		dries_paused = true;
+		lian_paused = true;
+
+		$("#dries_controls #toggle_time").click(function() {
+			dries_paused = !dries_paused;
+		});
+		
+		$("#lian_controls #toggle_time").click(function() {
+			lian_paused = !lian_paused;
+		});
+		
+		$('#stop_time').click(function() {
+			lian_paused = dries_paused = true;
+		});
+		
+		$('#dries_controls .score').click(function() {
+			var score = parseInt($(this).html());
+			var counter = parseInt($(driesCounter).html());
+			$(driesCounter).html((counter + score));
+		});
+		
+		$('#lian_controls .score').click(function() {
+			var score = parseInt($(this).html());
+			var counter = parseInt($(lianCounter).html());
+			$(lianCounter).html((counter + score));
+		});
+
+		var refreshId = setInterval(function() {
+		  var currentSecondsDries = driesCounter.text();
+		  var currentSecondsLian = lianCounter.text();
+		  if(currentSecondsDries == 0 ||currentSecondsLian == 0) {
+			// end of game
+		  } else {
+			if (!dries_paused) {
+		      	driesCounter.html(currentSecondsDries-1);
+			}
+			if (!lian_paused) {
+				lianCounter.html(currentSecondsLian-1);
+			}
+	      }
+	   }, 1000);
 		
 	});
 </script>
