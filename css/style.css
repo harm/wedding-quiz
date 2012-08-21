@@ -40,3 +40,8 @@ html[xmlns] .clearfix { display: block; }
 #general_controls { margin-top: 20px; }
 
 #controls { margin-top: 250px; }
+
+#round1 #question_counter { font-size: 80px; color: white; text-align: center; padding: 50px; }
+#round1 #question_pane { font-size: 80px; color: white; text-align: center; padding: 50px; }
+#round1 #question_pane.score { color: green; }
+

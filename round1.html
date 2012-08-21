@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>jQuery Rolodex Countdown Animation[Demo]</title>
+  <meta name="author" content="Jake Rocheleau">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script type="text/javascript" language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+</head>
+
+<body>	
+	<div id="wrapping">
+		<div id="round1">
+			<div id="question_counter"></div>
+			<div id="question_pane">RONDE 1: 3,6,9</div>
+		</div>
+	</div>
+	
+	<div style="clear:both;"></div>
+	
+	<div id="controls">
+		<a href="#" id="previous">Previous</a> | 
+		<a href="#" id="next">Next</a>
+	</div>
+
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		
+		question_index = 0;
+		
+		round1_questions = [
+			"Waar kikker je van op?",
+			"Wat bevindt zich niet in de kelder van Dries?",
+			"Wat kan Lian goed masseren?",
+			"Als Dries gaat wakeboarden, gaat hij dan rechts of linksom?",
+			"Bij wie gaan wel eens de lampjes uit?",
+			"Hoe eindigt een voetbalfeestje voor Lian?",
+			"Hoeveel kilogram scampis heeft Dries in Spa gegeten?",
+			"Wat is volgens Dries altijd helemaal de max?",
+			"Waar zat Dries altijd toen hij nog bij Rutten werkte?",
+			"Hoeveel graden was het in de huiskamer tijdens het weekend in Spa?",
+			"Hoe ziet Lian haar droom vakantieverblijf er uit?",
+			"Hoe heet de minnaar van Lian?",
+			"Wie drikt als Dries en Lian met de auto op stap zijn?",
+			"Waar heeft Dries met moeite afstand van genomen sinds zijn relatie met Lian?",
+			"In welk jaartal is de badkamer van Dries en Lian afgerond?"
+		];
+		
+		$('#next').click(function() {
+			question_index++;
+			display_question();
+			
+		});
+		
+		$('#previous').click(function() {
+			question_index--;
+			display_question();
+		})
+		
+		function display_question() {
+			$('#question_counter').html("Vraag: " + question_index);
+			$('#question_pane').html(round1_questions[question_index]);
+			if (question_index % 3 == 0) {
+				$('#question_pane').addClass('score');
+			} else {
+				$('#question_pane').removeClass('score');
+			}
+		}
+	});
+</script>
+</body>
+
+</html>
