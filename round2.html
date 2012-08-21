@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>jQuery Rolodex Countdown Animation[Demo]</title>
+  <meta name="author" content="Jake Rocheleau">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script type="text/javascript" language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+</head>
+
+<body>	
+	<div id="wrapping">
+		<div id="round2">
+			
+		</div>
+	</div>
+	
+	<div id="controls">
+		<a href="#" id="previous">Previous</a> | 
+		<a href="#" id="next">Next</a>
+	</div>
+	
+	<div style="clear:both;"></div>
+
+<script type="text/javascript" charset="utf-8">
+
+	Array.prototype.shuffle = function() {
+	 	var len = this.length;
+		var i = len;
+		 while (i--) {
+		 	var p = parseInt(Math.random()*len);
+			var t = this[i];
+	  	this[i] = this[p];
+	  	this[p] = t;
+	 	}
+	};
+	
+	function displayQuestion(question) {
+		$('#round2').html("");
+		var card_array = [];
+		var card_array_index = 0;
+		for (var i = 0; i < question.length; i++ ) {
+			for(var y = 0; y < 4; y++) {
+				card_array[card_array_index] = "<div class='card " + question[i].solution + "'>" + question[i].data[y] + "</div>";
+				card_array_index++;
+			}
+		}
+		
+		card_array.shuffle();
+		for (var i = 0; i < card_array.length; i++) {
+			$("#round2").append(card_array[i]);
+		}
+		
+		$('.card').click(function() {
+			var my_class = $(this).attr("class");
+			console.log(my_class);
+			var class_to_find = ".card" + "." + my_class.split(" ")[1];
+			console.log(class_to_find);
+			$(class_to_find).addClass('correct');
+		});
+	}
+
+	$(document).ready(function() {
+		
+		var question_index = 0;
+		var questions = [ 
+			[
+				{ solution: "skieen", data: [ 'Sneeuw', 'Pijn', 'Flaine', 'Busreis'] },
+				{ solution: "kapper", data: [ 'Haar', 'Opleiding', 'Schaar', 'Föhn'] },
+				{ solution: "Bree", data: [ 'België', 'Opknappertje', 'Parel der Kempen', 'Thuis'] }
+			],
+		 	[
+				{ solution: "Kelder", data: [ 'Jetski', 'Lege kratten bier', 'Interieur winkel', 'Geboortebord Dewi'] },
+				{ solution: "Huis", data: [ 'Stopcontacten', 'Tuin', 'Deurklink', 'Opstapje'] },
+				{ solution: "Kinderen", data: [ 'Hechtigingen', 'Speelgoed', 'Konijn', 'Eigenwijs'] }
+			]
+		];
+		
+		$('#next').click(function() {
+			question_index++;
+			displayQuestion(questions[question_index]);
+			
+		});
+		
+		$('#previous').click(function() {
+			question_index--;
+			displayQuestion(questions[question_index]);
+		})
+		
+		
+		console.log(questions[0]);
+		displayQuestion(questions[0]);
+		
+		
+		
+	});
+</script>
+</body>
+
+</html>
