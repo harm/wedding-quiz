@@ -1,125 +1,154 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>jQuery Rolodex Countdown Animation[Demo]</title>
-  <meta name="author" content="Jake Rocheleau">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
-  <script type="text/javascript" language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>jQuery Rolodex Countdown Animation[Demo]</title>
+	<meta name="author" content="Jake Rocheleau">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 </head>
 
 <body>	
 	<div id="wrapping">
-		
+
 		<div id="dries" class="clearfix">
 			<div class="block">
 				<span id="dries_counter">120</span>
 				<span class="name">Dries</span>
 			</div>
 		</div>
-		
+
 		<div id="lian" class="clearfix">
 			<div class="block">
 				<span id="lian_counter">120</span>
 				<span class="name">Lian</span>
 			</div>
 		</div>
-		
+
 		<div style="clear:both;"></div>
 
 		<div id="round1">
-			<div id="question_counter"></div>
-			<div id="question_pane">RONDE 1: 3,6,9</div>
-			
 			<div id="controls">
 				<a href="#" id="previous">Previous</a> | 
 				<a href="#" id="next">Next</a>
 			</div>
+
+			<div id="question_counter"></div>
+			<div id="question_pane">RONDE 1: 3,6,9</div>
+
 		</div>
-		
+
 		<div id="round2">
+			<div id="controls">
+				<a href="#" class="stop_time">Stop</a>
+				<a href="#" id="next">Next</a>
+			</div>
+
 			<div id="game_screen">
 				Ronde 2: Puzzel
 			</div>
-			
+
 			<div id="start_determine_r2">
 				<a href="#" id="dries_start_r2">Dries</a> | 
 				<a href="#" id="lian_start_r2">Lian</a>
 			</div>
-			
-			<div id="controls">
-				<a href="#" id="stop_time">Stop</a>
-				<a href="#" id="next">Next</a>
-			</div>
+
 		</div>
-		
+
 		<div id="round3">
-			<div id="question_counter"></div>
-			<div id="question_pane">RONDE 3: Ingelijst</div>
-			<div id="answers"></div>
-			
 			<div id="controls">
+				<a href="#" class="stop_time">Stop</a>
 				<a href="#" id="previous">Previous</a> | 
 				<a href="#" id="next">Next</a>
+				<a href="#" id="dries_start_r3" class="spacer">Dries</a> | 
+				<a href="#" id="lian_start_r3">Lian</a>
 			</div>
+			
+			<div id="question_counter"></div>
+			<div id="answers_1" style="display:none;" class="question_pane_r3">
+				<div id="question_pane">Noem 10 kenmerken van een goed huwelijk?</div>
+				<div class="r3_answer">Creativiteit</div>
+				<div class="r3_answer">Humor</div>
+				<div class="r3_answer">Hart op tong</div>
+				<div class="r3_answer">Kinderen</div>
+				<div class="r3_answer">Ondernemend</div>
+				<div class="r3_answer">Zorgzaam</div>
+				<div class="r3_answer">Familie</div>
+				<div class="r3_answer">Seks</div>
+				<div class="r3_answer">Erotische massage</div>
+				<div class="r3_answer">Elkaar de ruimte geven</div>
+			</div>			
+			<div id="answers_2" style="display:none;" class="question_pane_r3">
+				<div id="question_pane">Noem 10 uitspraken van Dries?</div>	
+				<div class="r3_answer">Lindse bloas</div>
+				<div class="r3_answer">Lampjes uit</div>
+				<div class="r3_answer">Half zat is ...</div>
+				<div class="r3_answer">Buk maar dan duw ik je naar huis</div>
+				<div class="r3_answer">De max</div>
+				<div class="r3_answer">Åvec de voele poepeur</div>
+				<div class="r3_answer">Gene paniek</div>
+				<div class="r3_answer">Joa zit ie</div>
+				<div class="r3_answer">?</div>
+				<div class="r3_answer">?</div>
+			</div>			
 		</div>
-		
+
 	</div>
-	
+
 	<div style="clear:both;"></div>
-	
-<script type="text/javascript" charset="utf-8">
+
+	<script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		
+
 		// general setup
-		$("#round1").hide();
+		//$("#round1").hide();
 		$("#round2").hide();
-		//$("#round3").hide();
-		
+		$("#round3").hide();
+
 		Array.prototype.shuffle = function() {
-		 	var len = this.length;
+			var len = this.length;
 			var i = len;
-			 while (i--) {
-			 	var p = parseInt(Math.random()*len);
+			while (i--) {
+				var p = parseInt(Math.random()*len);
 				var t = this[i];
-		  	this[i] = this[p];
-		  	this[p] = t;
-		 	}
+				this[i] = this[p];
+				this[p] = t;
+			}
 		};
-		
+
 		// round 1
-		
+
 		// during round 1 both can earn 20 seconds for a correct answer every third question
 		$("#dries").click(function() {
 			var counter = parseInt($(driesCounter).html());
 			$(driesCounter).html((counter + 20));
 		});
-		
+
 		$("#lian").click(function() {
 			var counter = parseInt($(lianCounter).html());
 			$(lianCounter).html((counter + 20));
 		});
-		
-		
+
+
 		question_index_r1 = 0;
 		round1_questions = [
-			"Waar kikker je van op?",
-			"Wat bevindt zich niet in de kelder van Dries?",
-			"Wat kan Lian goed masseren?",
-			"Als Dries gaat wakeboarden, gaat hij dan rechts of linksom?",
-			"Bij wie gaan wel eens de lampjes uit?",
-			"Hoe eindigt een voetbalfeestje voor Lian?",
-			"Hoeveel kilogram scampis heeft Dries in Spa gegeten?",
-			"Wat is volgens Dries altijd helemaal de max?",
-			"Waar zat Dries altijd toen hij nog bij Rutten werkte?",
-			"Hoeveel graden was het in de huiskamer tijdens het weekend in Spa?",
-			"Hoe ziet Lian haar droom vakantieverblijf er uit?",
-			"Hoe heet de minnaar van Lian?",
-			"Wie drinkt als Dries en Lian met de auto op stap zijn?",
-			"Waar heeft Dries met moeite afstand van genomen sinds zijn relatie met Lian?",
-			"In welk jaartal is de badkamer van Dries en Lian afgerond?"
+		"Waar kikker je van op?",
+		"Wat bevindt zich niet in de kelder van Dries?",
+		"Wat kan Lian goed masseren?",
+		"Als Dries gaat wakeboarden, gaat hij dan rechts of linksom?",
+		"Bij wie gaan wel eens de lampjes uit?",
+		"Hoe eindigt een voetbalfeestje voor Lian?",
+		"Hoeveel kilogram scampis heeft Dries in Spa gegeten?",
+		"Wat is volgens Dries altijd helemaal de max?",
+		"Waar zat Dries altijd toen hij nog bij Rutten werkte?",
+		"Hoeveel graden was het in de huiskamer tijdens het weekend in Spa?",
+		"Hoe ziet Lian haar droom vakantieverblijf er uit?",
+		"Hoe heet de minnaar van Lian?",
+		"Wie drinkt als Dries en Lian met de auto op stap zijn?",
+		"Waar heeft Dries met moeite afstand van genomen sinds zijn relatie met Lian?",
+		"In welk jaartal is de badkamer van Dries en Lian afgerond?"
 		];
-		
+
 		$('#round1 #next').click(function() {
 			if (question_index_r1 > 14) {
 				$("#round1").hide();
@@ -129,12 +158,12 @@
 				question_index_r1++;
 			}	
 		});
-		
+
 		$('#round1 #previous').click(function() {
 			question_index_r1--;
 			display_question_r1();
 		})
-		
+
 		function display_question_r1() {
 			$('#question_counter').html("Vraag: " + (question_index_r1 + 1));
 			$('#question_pane').html(round1_questions[question_index_r1]);
@@ -144,12 +173,12 @@
 				$('#question_pane').removeClass('score');
 			}
 		}
-		
-		
+
+
 		// round 2
-		
+
 		current_player = "";
-		
+
 		function display_question_r2(question) {
 			$('#game_screen').html("");
 			var card_array = [];
@@ -170,37 +199,37 @@
 				var my_class = $(this).attr("class");
 				var class_to_find = ".card" + "." + my_class.split(" ")[1];
 				$(class_to_find).addClass('correct');
-				
+
 				// update score for current player
 				console.log(current_player);
 				var counter = parseInt($("#" + current_player + "_counter").html());
 				console.log(counter);
 				$("#" + current_player + "_counter").html((counter + 40));
-				
+
 			});
 		}
-		
+
 		var question_index_r2 = 0;
 		var questions_r2 = [ 
-			[
-				{ solution: "skieen", data: [ 'Sneeuw', 'Pijn', 'Flaine', 'Busreis'] },
-				{ solution: "kapper", data: [ 'Haar', 'Opleiding', 'Schaar', 'Föhn'] },
-				{ solution: "Bree", data: [ 'België', 'Opknappertje', 'Parel der Kempen', 'Thuis'] }
-			],
-		 	[
-				{ solution: "Kelder", data: [ 'Motor', 'Lege kratten bier', 'Interieur winkel', 'Geboortebord Dewi'] },
-				{ solution: "Huis", data: [ 'Stopcontacten', 'Tuin', 'Deurklink', 'Opstapje'] },
-				{ solution: "Kinderen", data: [ 'Hechtigingen', 'Speelgoed', 'Konijn', 'Eigenwijs'] }
-			]
+		[
+		{ solution: "skieen", data: [ 'Sneeuw', 'Pijn', 'Flaine', 'Busreis'] },
+		{ solution: "kapper", data: [ 'Haar', 'Opleiding', 'Schaar', 'Föhn'] },
+		{ solution: "Bree", data: [ 'België', 'Opknappertje', 'Parel der Kempen', 'Thuis'] }
+		],
+		[
+		{ solution: "Kelder", data: [ 'Motor', 'Lege kratten bier', 'Interieur winkel', 'Geboortebord Dewi'] },
+		{ solution: "Huis", data: [ 'Stopcontacten', 'Tuin', 'Deurklink', 'Opstapje'] },
+		{ solution: "Kinderen", data: [ 'Hechtigingen', 'Speelgoed', 'Konijn', 'Eigenwijs'] }
+		]
 		];
-		
+
 		$("#dries_start_r2").click(function() {
 			dries_paused = false;
 			lian_paused = true;
 			current_player = "dries";
 			display_question_r2(questions_r2[0]);
 		});
-		
+
 		$("#lian_start_r2").click(function(){
 			dries_paused = true;
 			lian_paused = false;
@@ -208,83 +237,72 @@
 			display_question_r2(questions_r2[1]);
 		});
 
-		
+
 		$('#round2 #next').click(function() {
 			$("#round2").hide();
 			$("#round3").show();
 		});
-		
-		
+
+
 		// round 3
 		question_index_r3 = 0;
-		round3_questions = [
-			"Noem 10 kenmerken van een goed huwelijk?",
-			"Noem 10 'spreuken' van Dries"
-		];
-		
-		round3_answers = [
-			[ "Seks", "Ruzie", "Lieve kinderen", "Humor", "Seks", "Ruzie", "Lieve kinderen", "Humor", "Seks", "Ruzie" ],
-			[ "Kiek 'm goan", "Lindsebloas", "Face down", "Prikkeldraad", "Seks", "Ruzie", "Lieve kinderen", "Humor", "Seks", "Ruzie" ]
-		];
-		
-		
-		
+
 		$('#round3 #next').click(function() {
-			console.log("clicked...");
-			if (question_index_r3 > 1) {
-				
-			} else {
-				display_question_r3();
-				question_index_r3++;
-			}	
+			question_index_r3++;
+			$('.question_pane_r3').hide();
+			$('#answers_' + question_index_r3).show();
 		});
-		
+
 		$('#round3 #previous').click(function() {
 			question_index_r3--;
-			display_question_r3();
-		})
+			$('.question_pane_r3').hide();
+			$('#answers_' + question_index_r3).show();		
+		});
 		
-		display_question_r3();
-		
-		function display_question_r3() {
-			$('#round3 #question_counter').html("Vraag: " + (question_index_r3 + 1) );
-			$('#round3 #question_pane').html(round3_questions[question_index_r3]);
-			
-			console.log(round3_answers[question_index_r3].length);
-			for (var i = 0; i < round3_answers[question_index_r3].length; i++) {
-				console.log("this wah...");
-				$('#round3 #answers').append("<div class='r3_answer'>" + round3_answers[question_index_r3][i] + "</div>");
-			}
-			
-		}
-		
-		
+		$('#dries_start_r3').click(function() {
+			current_player = 'dries';			
+			dries_paused = false;
+			lian_paused = true;
+		});
+
+		$('#lian_start_r3').click(function() {
+			current_player = 'lian';
+			dries_paused = true;
+			lian_paused = false;
+		});
+
+		$('.r3_answer').click(function() {
+			$(this).addClass('highlight');
+			var counter = parseInt($("#" + current_player + "_counter").html());
+			$("#" + current_player + "_counter").html((counter + 20));			
+		});
 		
 		// counter
 		driesCounter  = $("#dries_counter");
 		lianCounter  = $("#lian_counter");
-		
+
 		dries_paused = true;
 		lian_paused = true;
 
 		$("#dries_controls #toggle_time").click(function() {
 			dries_paused = !dries_paused;
 		});
-		
+
 		$("#lian_controls #toggle_time").click(function() {
 			lian_paused = !lian_paused;
 		});
-		
-		$('#stop_time').click(function() {
+
+		$('.stop_time').click(function() {
+			console.log("test");
 			lian_paused = dries_paused = true;
 		});
-		
+
 		$('#dries_controls .score').click(function() {
 			var score = parseInt($(this).html());
 			var counter = parseInt($(driesCounter).html());
 			$(driesCounter).html((counter + score));
 		});
-		
+
 		$('#lian_controls .score').click(function() {
 			var score = parseInt($(this).html());
 			var counter = parseInt($(lianCounter).html());
@@ -292,22 +310,22 @@
 		});
 
 		var refreshId = setInterval(function() {
-		  var currentSecondsDries = driesCounter.text();
-		  var currentSecondsLian = lianCounter.text();
-		  if(currentSecondsDries == 0 ||currentSecondsLian == 0) {
-			// end of game
-		  } else {
-			if (!dries_paused) {
-		      	driesCounter.html(currentSecondsDries-1);
+			var currentSecondsDries = driesCounter.text();
+			var currentSecondsLian = lianCounter.text();
+			if(currentSecondsDries == 0 ||currentSecondsLian == 0) {
+				// end of game
+			} else {
+				if (!dries_paused) {
+					driesCounter.html(currentSecondsDries-1);
+				}
+				if (!lian_paused) {
+					lianCounter.html(currentSecondsLian-1);
+				}
 			}
-			if (!lian_paused) {
-				lianCounter.html(currentSecondsLian-1);
-			}
-	      }
-	   }, 1000);
-		
-	});
-</script>
-</body>
+			}, 1000);
 
-</html>
+		});
+		</script>
+	</body>
+
+	</html>
