@@ -18,6 +18,7 @@
 			</div>
 		</div>
 
+
 		<div id="lian" class="clearfix">
 			<div class="block">
 				<span id="lian_counter">120</span>
@@ -28,8 +29,10 @@
 		<div style="clear:both;"></div>
 
 		<div id="round1">
+			<div class="header">
+				Ronde 1
+			</div>
 			<div id="controls">
-				<a href="#" id="previous">Previous</a> | 
 				<a href="#" id="next">Next</a>
 			</div>
 
@@ -39,26 +42,31 @@
 		</div>
 
 		<div id="round2">
+			<div class="header">
+				Ronde 2
+			</div>
 			<div id="controls">
 				<a href="#" class="stop_time">Stop</a>
 				<a href="#" id="next">Next</a>
+				<div id="start_determine_r2">
+					<a href="#" id="dries_start_r2">Dries</a> | 
+					<a href="#" id="lian_start_r2">Lian</a>
+				</div>
 			</div>
 
 			<div id="game_screen">
 				Ronde 2: Puzzel
 			</div>
 
-			<div id="start_determine_r2">
-				<a href="#" id="dries_start_r2">Dries</a> | 
-				<a href="#" id="lian_start_r2">Lian</a>
-			</div>
 
 		</div>
 
 		<div id="round3">
+			<div class="header">
+				Ronde 3
+			</div>
 			<div id="controls">
 				<a href="#" class="stop_time">Stop</a>
-				<a href="#" id="previous">Previous</a> | 
 				<a href="#" id="next">Next</a>
 				<a href="#" id="dries_start_r3" class="spacer">Dries</a> | 
 				<a href="#" id="lian_start_r3">Lian</a>
@@ -90,7 +98,12 @@
 				<div class="r3_answer">Joa zit ie</div>
 				<div class="r3_answer">?</div>
 				<div class="r3_answer">?</div>
-			</div>			
+			</div>
+			
+			<div id="game_screen">
+				Ronde 3: Ingelijst
+			</div>
+					
 		</div>
 
 	</div>
@@ -158,11 +171,6 @@
 				question_index_r1++;
 			}	
 		});
-
-		$('#round1 #previous').click(function() {
-			question_index_r1--;
-			display_question_r1();
-		})
 
 		function display_question_r1() {
 			$('#question_counter').html("Vraag: " + (question_index_r1 + 1));
@@ -249,16 +257,11 @@
 
 		$('#round3 #next').click(function() {
 			question_index_r3++;
+			$('#round3 #game_screen').html("");
 			$('.question_pane_r3').hide();
 			$('#answers_' + question_index_r3).show();
 		});
 
-		$('#round3 #previous').click(function() {
-			question_index_r3--;
-			$('.question_pane_r3').hide();
-			$('#answers_' + question_index_r3).show();		
-		});
-		
 		$('#dries_start_r3').click(function() {
 			current_player = 'dries';			
 			dries_paused = false;
