@@ -56,6 +56,7 @@
 		<div id="round3">
 			<div id="question_counter"></div>
 			<div id="question_pane">RONDE 3: Ingelijst</div>
+			<div id="answers"></div>
 			
 			<div id="controls">
 				<a href="#" id="previous">Previous</a> | 
@@ -71,9 +72,9 @@
 	$(document).ready(function() {
 		
 		// general setup
-		//$("#round1").hide();
+		$("#round1").hide();
 		$("#round2").hide();
-		$("#round3").hide();
+		//$("#round3").hide();
 		
 		Array.prototype.shuffle = function() {
 		 	var len = this.length;
@@ -187,7 +188,7 @@
 				{ solution: "Bree", data: [ 'België', 'Opknappertje', 'Parel der Kempen', 'Thuis'] }
 			],
 		 	[
-				{ solution: "Kelder", data: [ 'Jetski', 'Lege kratten bier', 'Interieur winkel', 'Geboortebord Dewi'] },
+				{ solution: "Kelder", data: [ 'Motor', 'Lege kratten bier', 'Interieur winkel', 'Geboortebord Dewi'] },
 				{ solution: "Huis", data: [ 'Stopcontacten', 'Tuin', 'Deurklink', 'Opstapje'] },
 				{ solution: "Kinderen", data: [ 'Hechtigingen', 'Speelgoed', 'Konijn', 'Eigenwijs'] }
 			]
@@ -221,6 +222,13 @@
 			"Noem 10 'spreuken' van Dries"
 		];
 		
+		round3_answers = [
+			[ "Seks", "Ruzie", "Lieve kinderen", "Humor", "Seks", "Ruzie", "Lieve kinderen", "Humor", "Seks", "Ruzie" ],
+			[ "Kiek 'm goan", "Lindsebloas", "Face down", "Prikkeldraad", "Seks", "Ruzie", "Lieve kinderen", "Humor", "Seks", "Ruzie" ]
+		];
+		
+		
+		
 		$('#round3 #next').click(function() {
 			console.log("clicked...");
 			if (question_index_r3 > 1) {
@@ -236,10 +244,21 @@
 			display_question_r3();
 		})
 		
+		display_question_r3();
+		
 		function display_question_r3() {
 			$('#round3 #question_counter').html("Vraag: " + (question_index_r3 + 1) );
 			$('#round3 #question_pane').html(round3_questions[question_index_r3]);
+			
+			console.log(round3_answers[question_index_r3].length);
+			for (var i = 0; i < round3_answers[question_index_r3].length; i++) {
+				console.log("this wah...");
+				$('#round3 #answers').append("<div class='r3_answer'>" + round3_answers[question_index_r3][i] + "</div>");
+			}
+			
 		}
+		
+		
 		
 		// counter
 		driesCounter  = $("#dries_counter");
